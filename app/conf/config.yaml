@@ -1,0 +1,13 @@
+server:
+  host: ${SERVER_HOST} # str
+  port: ${SERVER_PORT} # int
+  serviceName: REGRESSION_SERVICE_API # service discovery
+  accessToken: ${ACCESS_TOKEN} # str
+dataset:
+  n_samples: ${NUM_SAMPLES} # int
+  n_features: ${NUM_FEATURES} # int
+  shuffle: ${SHUFFLE} # bool
+  noise: ${NOISE} # float
+regressor:
+  model: ${MODEL} # str
+  coef: ${COEF} # bool
