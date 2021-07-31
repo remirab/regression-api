@@ -44,13 +44,18 @@ class Constants:
     APP_CONFIG = readonly(os.path.dirname(os.path.realpath(__file__)) + "/app/conf/config.yaml")
 
     # dataset generation params
-    N_SAMPLES = readonly(100000)
-    N_FEATURES = readonly(3)
-    N_INFORMATIVE = readonly(3)
-    N_TARGETS = readonly(1)
-    SHUFFLE = readonly(True)
-    NOISE = readonly(0.0)
-    COEF = readonly(True)
+    DATASET_PROP = {
+        N_SAMPLES: readonly(100000),
+        N_FEATURES: readonly(3),
+        N_INFORMATIVE: readonly(3),
+        N_TARGETS: readonly(1),
+        SHUFFLE: readonly(True),
+        NOISE: readonly(0.0),
+        COEF: readonly(True)
+    }
 
     # regression model config
     REGRESSOR = readonly("LinearRegression")
+
+    # jupyter notebook run
+    JUPYTER = readonly(True)
