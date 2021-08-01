@@ -43,7 +43,8 @@ def read_only_properties(*attrs):
     "APP_CONFIG",
     "DATASET_PROP",
     "REGRESSOR",
-    "JUPYTER"
+    "JUPYTER",
+    "RND_STATE"
 )
 class Constants:
     """
@@ -58,8 +59,9 @@ class Constants:
         self.LOG_FILE = "app.log"
 
         # base url for endpoints
-        self.BASE_URL = "/regression-api/inference"
-        self.BASE_URL_REGRESSION = self.BASE_URL + "/regression"
+        self.BASE_URL = "/rigid-robotics/regression-api/"
+        self.BASE_URL_DATASET = self.BASE_URL + "/dataset"
+        self.BASE_URL_REGRESSION = self.BASE_URL + "/regressor"
 
         # environments
         self.DEV_ENV = "DEV"
@@ -72,7 +74,8 @@ class Constants:
         # config files and important folders
         self.ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
         self.DATASETS_DIR = self.ROOT_DIR + "/app/dataset/store/"
-        self.IMAGES_DIR = self.ROOT_DIR + "/app/jupyter/images/"
+        self.JUPYTER_DIR = self.ROOT_DIR + "/app/jupyter/" 
+        self.IMAGES_DIR = self.JUPYTER_DIR + "/images/"
         self.APP_CONFIG = self.ROOT_DIR + "/app/conf/config.yaml"
 
         # scikit-learn dataset generation params
@@ -83,7 +86,6 @@ class Constants:
             "n_targets": 1,
             "shuffle": True,
             "noise": 0.0,
-            "coef": True,
             "rnd_state": 111
         }
 
@@ -92,3 +94,6 @@ class Constants:
 
         # jupyter notebook run
         self.JUPYTER = True
+
+        # random state
+        self.RND_STATE = 123
