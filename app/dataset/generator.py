@@ -34,7 +34,9 @@ class Dataset:
             d_frame = self.dataset_generator(self.constants.DATASET_PROP)
             # insert alphabet column
             d_frame = self.insert_alphabet_column(dataframe=d_frame, idx=self.constants.DATASET_PROP["n_features"])
-            response = "WoW!!!"
+            # save dataframe to pickle file
+            self.save_dataset(dataframe=d_frame, path=self.constants.DATASETS_DIR)
+            response = "Dataset successfully generated!"
 
         except Exception as e:
             self.logger.error(e, exc_info=True)
@@ -44,7 +46,8 @@ class Dataset:
         return response, response_code
 
     def save_dataset(self, dataframe: pd.DataFrame, path: str):
-        dataframe.to_pickle(path=path)
+        file_name = path + "/dataset.pkl"
+        dataframe.to_pickle(path=file_name)
 
     def load_dataset(self, file_name: str, path: str):
         file_path = path + file_name
