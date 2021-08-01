@@ -1,61 +1,94 @@
 import os
 
-def readonly(value):
-    return property(lambda self: value)
+def read_only_properties(*attrs):
+    """
+    Make attributes of a class readonly.
+    """
 
+    def class_rebuilder(cls):
+        """
+        The class decorator example
+        """
+
+        class NewClass(cls):
+            """
+            This is the overwritten class
+            """
+            def __setattr__(self, name, value):
+
+                if name not in attrs:
+                    pass
+                elif name not in self.__dict__:
+                    pass
+                else:
+                    raise AttributeError("Can't touch {}".format(name))
+
+                super().__setattr__(name, value)
+        return NewClass
+
+    return class_rebuilder
+
+
+@read_only_properties(
+    "LOG_FILE",
+    "BASE_URL",
+    "BASE_URL_REGRESSION",
+    "DEV_ENV",
+    "PROD_ENV",
+    "TEST_ENV",
+    "GLOBAL_ERROR_MESSAGE",
+    "ROOT_DIR",
+    "DATASETS_DIR",
+    "IMAGES_DIR",
+    "APP_CONFIG",
+    "DATASET_PROP",
+    "REGRESSOR",
+    "JUPYTER"
+)
 class Constants:
-
-    __instance__ = None
+    """
+    All global constant parameters 
+    """
 
     def __init__(self):
         """
         Constructor
         """
-        if Constants.__instance__ is None:
-            Constants.__instance__ = self
-        else:
-            raise Exception("You can not create another Constants class. Use Constants.get_instance() instead.")
+        # default log file
+        self.LOG_FILE = "app.log"
 
-    @staticmethod
-    def get_instance():
-        """
-        Static method to fetch the current instance.
-        """
-        if not Constants.__instance__:
-            Constants()
-        return Constants.__instance__
+        # base url for endpoints
+        self.BASE_URL = "/regression-api/inference"
+        self.BASE_URL_REGRESSION = self.BASE_URL + "/regression"
 
-    # default log file
-    LOG_FILE = readonly("app.log")
+        # environments
+        self.DEV_ENV = "DEV"
+        self.PROD_ENV = "PROD"
+        self.TEST_ENV = "TEST"
 
-    # base url for endpoints
-    BASE_URL = readonly("/rigid-robotics/ai/inference")
-    BASE_URL_REGRESSION = readonly(BASE_URL + "/regression")
+        # general error message
+        self.GLOBAL_ERROR_MESSAGE = "Execution error!"
 
-    # environments
-    DEV_ENV = readonly("DEV")
-    PROD_ENV = readonly("PROD")
+        # config files and important folders
+        self.ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
+        self.DATASETS_DIR = self.ROOT_DIR + "/app/dataset/store/"
+        self.IMAGES_DIR = self.ROOT_DIR + "/app/jupyter/images/"
+        self.APP_CONFIG = self.ROOT_DIR + "/app/conf/config.yaml"
 
-    # general error message
-    GLOBAL_ERROR_MESSAGE = readonly("Execution error!")
+        # scikit-learn dataset generation params
+        self.DATASET_PROP = {
+            "n_samples": 100,
+            "n_features": 2,
+            "n_informative": 2,
+            "n_targets": 1,
+            "shuffle": True,
+            "noise": 0.0,
+            "coef": True,
+            "rnd_state": 111
+        }
 
-    # config files
-    ROOT_DIR = readonly(os.path.dirname(os.path.realpath(__file__)))
-    APP_CONFIG = readonly(os.path.dirname(os.path.realpath(__file__)) + "/app/conf/config.yaml")
+        # regression model config
+        self.REGRESSOR = "LinearRegression"
 
-    # dataset generation params
-    DATASET_PROP = {
-        N_SAMPLES: readonly(100000),
-        N_FEATURES: readonly(3),
-        N_INFORMATIVE: readonly(3),
-        N_TARGETS: readonly(1),
-        SHUFFLE: readonly(True),
-        NOISE: readonly(0.0),
-        COEF: readonly(True)
-    }
-
-    # regression model config
-    REGRESSOR = readonly("LinearRegression")
-
-    # jupyter notebook run
-    JUPYTER = readonly(True)
+        # jupyter notebook run
+        self.JUPYTER = True
