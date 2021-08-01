@@ -24,7 +24,7 @@ class AppFactory:
         Constructor
         """
         self.constants = Constants()
-        self.model = Model.get_instance()
+        self.model = Model()
         if AppFactory.__instance__ is None:
             AppFactory.__instance__ = self
         else:
@@ -84,7 +84,7 @@ class AppFactory:
                 Dataset(logger=app.logger)
             )
 
-        app.register_blueprint(dataset_mod, url_prefix=self.constants.BASE_URL_REGRESSION)
+        app.register_blueprint(dataset_mod, url_prefix=self.constants.BASE_URL_DATASET)
         app.register_blueprint(main_mod, url_prefix='/')
 
         def validate_access_token():
